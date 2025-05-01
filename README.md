@@ -117,17 +117,14 @@ Pada kolom `Book-Rating`, terdapat nilai 0 yang jumlahnya sangat besar. Nilai te
 - Jumlahnya yang sangat dominan dapat **menyebabkan bias** dalam pelatihan model.
 
 ## 4. Encoding Data
-
 Melakukan encoding pada kolom `ISBN` dan `User-ID` ke bentuk numerik agar bisa diproses oleh algoritma machine learning.
 
 
 ## 5. Randomising the Dataset
-
 Melakukan pengacakan (shuffling) pada dataset agar distribusi data tidak berurutan berdasarkan user atau buku tertentu. Mencegah bias karena urutan data, serta memastikan bahwa model belajar dari berbagai kombinasi data secara acak.
 
 
 ## 6. Splitting Data Train & Test
-
 Memisahkan dataset menjadi dua bagian: data pelatihan (training set) dan data pengujian (testing set), biasanya dengan rasio 80:20.Memastikan bahwa model dapat diuji secara objektif menggunakan data yang belum pernah dilihat sebelumnya, untuk mengevaluasi performa model secara valid.
 
 ---
@@ -174,8 +171,8 @@ Rumus RMSE:
 ### Hasil Evaluasi
 
 <br>
-<image src='image/visual_rmse.png' width= 500/>
-<image src='image/visual_loss.png' width= 500/>
+<image src='image/visualisasi_rmse.png' width= 500/>
+<image src='image/visualisasi_loss.png' width= 500/>
 <br>
 
 #### Training vs Validation Loss
