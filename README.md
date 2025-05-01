@@ -172,6 +172,8 @@ Rumus RMSE:
 
 <br>
 <image src='image/visualisasi_rmse.png' width= 500/>
+<br>
+<br>
 <image src='image/visualisasi_loss.png' width= 500/>
 <br>
 
