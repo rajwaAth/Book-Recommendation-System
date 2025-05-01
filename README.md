@@ -171,7 +171,7 @@ Rumus RMSE:
 ### Hasil Evaluasi
 
 <br>
-<image src='image/visualisasi_rmse.png' width= 500/>
+<image src='image/RMSE_score.png' width= 500/>
 <br>
 <br>
 <image src='image/visualisasi_loss.png' width= 500/>
