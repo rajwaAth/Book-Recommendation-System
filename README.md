@@ -52,6 +52,8 @@ Menyimpan informasi dasar mengenai pengguna sistem.
 | `Location` | object    | Lokasi pengguna |
 | `Age`      | float   | Usia pengguna. Beberapa nilai mungkin kosong atau tidak valid. |
 
+Jumlah baris data yang dimiliki adalah **278858 baris**.
+
 <br>
 <image src='image/decs_users_dataset.png' width= 500/>
 <br>
@@ -71,6 +73,8 @@ Menyimpan metadata lengkap mengenai buku.
 | `Image-URL-M`          | object    | URL gambar sampul ukuran sedang. |
 | `Image-URL-L`          | object    | URL gambar sampul ukuran besar. |
 
+Jumlah baris data yang dimiliki adalah **271360 baris**.
+
 <br>
 <image src='image/decs_books_dataset.png' width= 500/>
 <br>
@@ -85,6 +89,8 @@ Mencatat interaksi antara pengguna dan buku berupa rating.
 | `User-ID`     | integer   | ID pengguna yang memberikan rating. Foreign key ke `Users.csv`. |
 | `ISBN`        | object    | ISBN buku yang diberi rating. Foreign key ke `Books.csv`. |
 | `Book-Rating` | integer   | Nilai rating dari pengguna untuk buku tersebut (rentang 0–10). Nilai `0` biasanya berarti tidak ada rating eksplisit. |
+
+Jumlah baris data yang dimiliki adalah **1149780 baris**.
 
 <br>
 <image src='image/decs_ratings_dataset.png' width= 500/>
@@ -117,7 +123,7 @@ Pada kolom `Book-Rating`, terdapat nilai 0 yang jumlahnya sangat besar. Nilai te
 - Jumlahnya yang sangat dominan dapat **menyebabkan bias** dalam pelatihan model.
 
 ## 4. Encoding Data
-Melakukan encoding pada kolom `ISBN` dan `User-ID` ke bentuk numerik agar bisa diproses oleh algoritma machine learning.
+Melakukan encoding menggunakan teknik **Label Encoding** pada kolom `ISBN` dan `User-ID` ke bentuk numerik agar bisa diproses oleh algoritma machine learning.
 
 
 ## 5. Randomising the Dataset
@@ -125,7 +131,7 @@ Melakukan pengacakan (shuffling) pada dataset agar distribusi data tidak berurut
 
 
 ## 6. Splitting Data Train & Test
-Memisahkan dataset menjadi dua bagian: data pelatihan (training set) dan data pengujian (testing set), biasanya dengan rasio 80:20.Memastikan bahwa model dapat diuji secara objektif menggunakan data yang belum pernah dilihat sebelumnya, untuk mengevaluasi performa model secara valid.
+Memisahkan dataset menjadi dua bagian: data pelatihan (training set) dan data pengujian (testing set) dengan teknik **train-test split**, membargi data train dan data test dengan rasio 80:20. Hal ini dilakukan untuk memastikan bahwa model dapat diuji secara objektif menggunakan data yang belum pernah dilihat sebelumnya, untuk mengevaluasi performa model secara valid.
 
 ---
 
@@ -168,7 +174,7 @@ Rumus RMSE:
 <image src='image/rumus_rmse.png' width= 500/>
 <br>
 
-### Hasil Evaluasi
+### Model Performance
 
 <br>
 <image src='image/RMSE_score.png' width= 500/>
@@ -177,11 +183,59 @@ Rumus RMSE:
 <image src='image/visualisasi_loss.png' width= 500/>
 <br>
 
+| Metric             | Hasil (Akhir) |
+|--------------------|---------------|
+| Training RMSE      | ~0.13         |
+| Validation RMSE    | ~0.18–0.19    |
+| Training Loss      | ~0.51         |
+| Validation Loss    | ~0.56         |
+
+- RMSE Validasi stabil dan cukup rendah, menunjukkan prediksi rating yang cukup akurat.
+- Tidak terjadi overfitting signifikan hingga epoch ke-15, walaupun sedikit peningkatan pada RMSE validasi muncul di akhir.
+
 #### Training vs Validation Loss
 Grafik *Training and Validation Loss* menunjukkan bahwa nilai *training loss* secara konsisten menurun selama proses pelatihan, mengindikasikan bahwa model berhasil mempelajari pola dari data pelatihan. *Validation loss* juga menurun dan stabil setelah beberapa epoch, yang menunjukkan bahwa model tidak mengalami overfitting secara signifikan dan memiliki kemampuan generalisasi yang baik terhadap data yang belum pernah dilihat.
 
 #### Training vs Validation RMSE
 Pada grafik *Training and Validation RMSE*, terlihat bahwa nilai *training RMSE* juga terus menurun, sementara *validation RMSE* menurun di awal dan stabil pada nilai yang cukup rendah. Gap antara RMSE pada data pelatihan dan validasi cukup kecil, menandakan performa model yang seimbang dan akurat baik pada data pelatihan maupun validasi. Hal ini memperkuat kesimpulan bahwa model mampu menghasilkan prediksi dengan kesalahan yang rendah dan dapat diandalkan dalam konteks sistem rekomendasi buku.
+
+### ✅ Evaluasi Berdasarkan Problem & Goals
+
+- ✔ **Masalah pencarian manual dan statis** teratasi dengan sistem rekomendasi otomatis.
+- ✔ **Personalisasi berhasil diterapkan** dengan output rekomendasi berdasarkan preferensi unik pengguna.
+- ✔ **Pengalaman pengguna meningkat**, karena rekomendasi langsung ditampilkan tanpa harus menelusuri manual.
+
+### 📈 Dampak terhadap Business Understanding
+
+- 💡 Meningkatkan retensi pengguna melalui sistem rekomendasi yang personal.
+- 💡 Mempercepat proses pencarian buku, sehingga efisiensi waktu pengguna meningkat.
+- 💡 Memberikan pengalaman yang lebih memuaskan dan potensi peningkatan interaksi atau pembelian di platform buku digital.
+
+### Contoh Rekomendasi Buku:
+#### 📌 Buku dengan Rating Tinggi oleh Pengguna
+
+| No | Judul Buku                                                                                                 | Penulis             |
+|----|------------------------------------------------------------------------------------------------------------|---------------------|
+| 1  | *Shopaholic Takes Manhattan (Summer Display Opportunity)*                                                 | Sophie Kinsella     |
+| 2  | *Confessions of a Shopaholic (Summer Display Opportunity)*                                                | Sophie Kinsella     |
+| 3  | *Tara Road*                                                                                                | Maeve Binchy        |
+| 4  | *Pride & Prejudice*                                                                                       | Jane Austen         |
+| 5  | *How to Keep Your Volkswagen Alive 19 Ed: A Manual of Step-by-Step Procedures...*                         | John Muir           |
+
+#### ⭐ Top 10 Rekomendasi Buku
+
+| No | Judul Buku                                                                                                       | Penulis              | Tahun | Penerbit                   |
+|----|------------------------------------------------------------------------------------------------------------------|-----------------------|-------|----------------------------|
+| 1  | *You Can't Eat Your Chicken Pox, Amber Brown*                                                                   | Paula Danziger        | 1996  | Little Apple               |
+| 2  | *Calvin and Hobbes*                                                                                             | Bill Watterson        | 1987  | Andrews McMeel Publishing |
+| 3  | *Jewels of the Sun (Irish Trilogy)*                                                                             | Nora Roberts          | 2004  | Jove Books                 |
+| 4  | *Scotland Yard*                                                                                                 | Robert Fleming        | 1995  | Signet                     |
+| 5  | *Natural California: A Postcard Book*                                                                           | Not Applicable (N/A)  | 1990  | Running Pr.                |
+| 6  | *The Complete Guide to Beading Techniques (Beadwork Books)*                                                    | Jane Davis            | 2001  | Krause Publications        |
+| 7  | *Biggie and the Poisoned Politician (Dead Letter Mysteries)*                                                   | Nancy Bell            | 1997  | St Martins Pr (Mm)         |
+| 8  | *The Lampfish of Twill*                                                                                         | Janet Taylor Lisle    | 1995  | Scholastic                 |
+| 9  | *Yankee Earl*                                                                                                   | Shirl Henke           | 2003  | Leisure Books              |
+| 10 | *The Substitute*                                                                                                | M. C. Sumner          | 1994  | Harpercollins Juvenile     |
 
 ## 📚 Referensi
 
